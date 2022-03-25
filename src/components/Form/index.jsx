@@ -1,31 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
+import List from "../List";
 import style from "./style.module.css";
 
-const Form = () => {
-  const [data, setData] = useState({
-    nama: "",
-    email: "",
-    nohp: "",
-    pendidikan: "",
-    kelas: "",
-    harapan: "",
-  });
-
-  const handelChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setData({
-      ...data,
-      [name]: value,
-    });
-  };
-  console.log(data);
+const Form = ({
+  handleSubmit,
+  handelChange,
+  data,
+  handleRreset,
+  errorMassage,
+  fileKesanggupan,
+}) => {
   return (
     <div>
-      <h1>Pendaftaran Peserta Coding Bootcamp</h1>
+      <h1 className={style.title}>Pendaftaran Peserta Coding Bootcamp</h1>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className={style.labelinput}>
           <label htmlFor="nama">Nama Lengkap: </label>
           <br />
@@ -73,7 +62,7 @@ const Form = () => {
             name="pendidikan"
             id="it"
             required
-            value={data.it}
+            value="it"
             checked={data.pendidikan === "it"}
             onChange={handelChange}
           />
@@ -82,7 +71,8 @@ const Form = () => {
             type="radio"
             name="pendidikan"
             id="nonit"
-            checked={data.pendidikan === data.pendidikan.nonit}
+            value="nonit"
+            checked={data.pendidikan === "nonit"}
             onChange={handelChange}
           />
           <label htmlFor="nonit">Non It</label>
@@ -109,7 +99,7 @@ const Form = () => {
         <div className={style.labelinput}>
           <label htmlFor="file">Foto Surat Kesungguhan</label>
           <br />
-          <input type="file" required />
+          <input type="file" required ref={fileKesanggupan} />
         </div>
 
         <div className={style.labelinput}>
@@ -126,9 +116,13 @@ const Form = () => {
           ></textarea>
         </div>
 
+        <List errorMassage={errorMassage} />
+
         <input type="submit" value="Submit" className={style.btnSubmit} />
 
-        <button className={style.btnReset}>Reset</button>
+        <button className={style.btnReset} onClick={handleRreset}>
+          Reset
+        </button>
       </form>
     </div>
   );
